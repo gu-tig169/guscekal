@@ -1,102 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'listview.dart';
+import 'SecondView.dart';
+import 'package:asignment/model.dart';
 
-void main() => runApp(ListApp());
+void main() {
+  var state = MyState();
+  runApp((ChangeNotifierProvider(
+    create: (context) => state,
+    child: ListApp(),
+  )));
+}
 
 class ListApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home(),
+      home: HomeView(),
     );
   }
 }
 
-class Home extends StatelessWidget {
+class HomeView extends StatefulWidget {
   @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final List<String> _filterList = ["All", "Done", "Not Done"];
+  String _filterValue = "All";
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('TIG169 TO DO'),
         centerTitle: true,
         backgroundColor: Colors.grey,
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.white,
-            ),
-            onPressed: () {},
-          )
+        actions: <Widget>[
+          PopupMenuButton<String>(onSelected: (String value) {
+            setState(() {
+              _filterValue = value;
+              print(_filterValue);
+            });
+          }, itemBuilder: (BuildContext context) {
+            return _filterList
+                .map((filter) =>
+                    PopupMenuItem(value: filter, child: Text(filter)))
+                .toList();
+          })
         ],
       ),
-      body: _list(),
+      body: Consumer<MyState>(
+          builder: (context, state, child) =>
+              ItemList(state.filteredList(_filterValue))),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.grey,
         child: Icon(Icons.add),
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddPage()));
+              context, MaterialPageRoute(builder: (context) => SecondView()));
         },
-        backgroundColor: Colors.grey,
-      ),
-    );
-  }
-
-  Widget _list() {
-    var toDoList = [
-      'Write a book',
-      'Do Homework',
-      'Tidy room',
-      'Watch TV',
-      'Nap',
-      'Shop groceries',
-      'Have fun',
-      'Meditate'
-    ];
-    return ListView(
-      children: toDoList.map((item) => _item(item)).toList(),
-    );
-  }
-
-  Widget _item(text) {
-    return ListTile(
-      leading: Checkbox(
-        value: false,
-        onChanged: null,
-      ),
-      title: Text(text),
-      trailing: IconButton(
-        icon: Icon(Icons.close),
-        onPressed: () {},
-      ),
-    );
-  }
-}
-
-class AddPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('TIG169 TO DO'),
-        centerTitle: true,
-        backgroundColor: Colors.grey,
-      ),
-      body: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.all(30),
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'What are you going to do?',
-              ),
-            ),
-          ),
-          OutlineButton(
-            onPressed: () {},
-            child: Text('+' + ' ' + 'Add'),
-          )
-        ],
       ),
     );
   }
