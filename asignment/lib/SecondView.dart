@@ -57,6 +57,7 @@ class SecondView extends StatelessWidget {
     );
   }
 
+// använder addItem från model.dart när användare klickar på add-knappen
   Widget _buttonRow(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -65,6 +66,7 @@ class SecondView extends StatelessWidget {
           onPressed: () {
             Provider.of<MyState>(context, listen: false)
                 .addItem(Item(name: textEditingController.text));
+// när add-knappen klickas, skickas man tiilbaka till förstasidan
             Navigator.popAndPushNamed(context, "/");
           },
           child: Text('+' + ' ' + 'Add'),

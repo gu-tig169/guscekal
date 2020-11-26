@@ -1,22 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:asignment/http_service.dart';
+import 'package:flutter/cupertino.dart';
 
 class Item {
+  String id;
   String name;
   bool isDone;
-  Item({this.name, this.isDone = false});
+
+  Item({this.id, this.name, this.isDone = false});
 }
 
 class MyState extends ChangeNotifier {
   List<Item> _list = [];
-  List<Item> get list => _list;
+  //List<Item> get list => _list;
 
-  void addItem(Item item) {
-    _list.add(item);
+  MyState() {
+    _postList();
+  }
+
+  void _postList() async {
+    this._list = await HttpService.getItems();
     notifyListeners();
   }
 
-  void removeTodo(Item item) {
-    _list.remove(item);
+  List<Item> get list => _list;
+
+// mha listeners läggs en todo i listan till
+  void addItem(Item item) async {
+    _list = await HttpService.postItem(item);
+    //_list.add(item);
+    notifyListeners();
+  }
+
+// uppdaterar mina items (todo) med id
+  void putItem(Item item) async {
+    _list = await HttpService.putItem(item);
+    notifyListeners();
+  }
+
+//som ovan, men tar bort en todo från listan
+  void removeItem(Item item) async {
+    _list = await HttpService.deleteItem(item);
     notifyListeners();
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'listview.dart';
-import 'SecondView.dart';
+import 'secondView.dart';
 import 'package:asignment/model.dart';
 
 void main() {
@@ -17,6 +17,7 @@ class ListApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: HomeView(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -53,6 +54,8 @@ class _HomeViewState extends State<HomeView> {
       body: Consumer<MyState>(
           builder: (context, state, child) =>
               ItemList(state.filteredList(_filterValue))),
+
+      // skapa add-knapp, skickas till nästa sida
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.grey,
         child: Icon(Icons.add),

@@ -25,16 +25,23 @@ class _ItemListState extends State<ItemList> {
         value: item.isDone,
         onChanged: (bool value) {
           setState(() {
+            // checkboxens värde uppdateras (när användaren klickar i eller ut checkboxen)
             item.isDone = value;
+            Provider.of<MyState>(context, listen: false).putItem(item);
           });
         },
       ),
-      title: Text(item.name, style: TextStyle(color: Colors.black)),
+      title: Text(item.name,
+          style: TextStyle(
+            decoration: item.isDone == true ? TextDecoration.lineThrough : null,
+            color: Colors.black,
+          )),
       trailing: IconButton(
         color: Colors.black,
         icon: Icon(Icons.close),
         onPressed: () {
-          Provider.of<MyState>(context, listen: false).removeTodo(item);
+          Provider.of<MyState>(context, listen: false).removeItem(
+              item); // removeItem tar bort när användaren klickar på krysset
         },
       ),
     );
