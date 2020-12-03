@@ -67,7 +67,7 @@ class SecondView extends StatelessWidget {
             Provider.of<MyState>(context, listen: false)
                 .addItem(Item(name: textEditingController.text));
 // när add-knappen klickas, skickas man tiilbaka till förstasidan
-            Navigator.popAndPushNamed(context, "/");
+            Navigator.pop(context, "/");
           },
           child: Text('+' + ' ' + 'Add'),
           color: Colors.white,

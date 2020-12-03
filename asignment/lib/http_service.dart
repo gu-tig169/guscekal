@@ -10,7 +10,6 @@ class HttpService {
 // GET
   static Future<List<Item>> getItems() async {
     http.Response res = await http.get(apiUrl + '?key=' + apiKey);
-
     //print(_mapResponseToList(res));
     return _mapResponseToList(res);
   }
@@ -32,7 +31,7 @@ class HttpService {
 // PUT
   static Future<List<Item>> putItem(Item item) async {
     http.Response res = await http.put(
-      apiUrl + '${item.id}?key=' + apiKey,
+      apiUrl + '/${item.id}?key=' + apiKey,
       headers: <String, String>{'Content-Type': 'application/json'},
       body: jsonEncode(<String, dynamic>{
         "title": item.name,
@@ -44,8 +43,8 @@ class HttpService {
 
   // DELETE
   static Future<List<Item>> deleteItem(Item item) async {
-    http.Response res = await http.delete(apiUrl + '${item.id}?key=' + apiKey);
-    //print(res.body);
+    http.Response res = await http.delete(apiUrl + '/${item.id}?key=' + apiKey);
+    print(res.body);
     return _mapResponseToList(res);
   }
 

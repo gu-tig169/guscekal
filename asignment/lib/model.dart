@@ -12,7 +12,6 @@ class Item {
 
 class MyState extends ChangeNotifier {
   List<Item> _list = [];
-  //List<Item> get list => _list;
 
   MyState() {
     _postList();
@@ -28,7 +27,6 @@ class MyState extends ChangeNotifier {
 // mha listeners läggs en todo i listan till
   void addItem(Item item) async {
     _list = await HttpService.postItem(item);
-    //_list.add(item);
     notifyListeners();
   }
 
